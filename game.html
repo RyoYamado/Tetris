@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Играть в Тетрис</title>
+    <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header с информацией о пользователе -->
+        <header class="game-header">
+            <div class="header-left">
+                <h1>Тетрис</h1>
+                <nav class="game-nav">
+                    <button id="homeButton" class="nav-button">Главная</button>
+                    <button id="leaderboardButton" class="nav-button">Таблица лидеров</button>
+                </nav>
+            </div>
+            
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <div class="user-name" id="userName">Гость</div>
+                    <div class="user-stats">
+                        <span>Лучший: <strong id="userBestScore">0</strong></span>
+                    </div>
+                </div>
+                <button id="logoutButton" class="logout-btn">Выйти</button>
+            </div>
+        </header>
+
+        <!-- Основная игровая область -->
+        <main class="game-main">
+            <!-- Левая колонка - игровое поле -->
+            <div class="game-column">
+                <div class="game-board-container">
+                    <div class="game-header">
+                        <h2>Игровое поле</h2>
+                        <div class="game-controls">
+                            <button id="startButton" class="control-btn primary">Начать игру</button>
+                            <button id="pauseButton" class="control-btn secondary">Пауза</button>
+                            <button id="restartButton" class="control-btn secondary">Перезапуск</button>
+                        </div>
+                    </div>
+                    
+                    <div class="game-board" id="gameBoard"></div>
+                    
+                    <div class="next-piece-container">
+                        <h3>Следующая фигура:</h3>
+                        <div class="next-piece-board" id="nextPieceBoard"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая колонка - информация и управление -->
+            <div class="info-column">
+                <!-- Статистика игры -->
+                <div class="stats-panel">
+                    <h3>Статистика</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Очки</div>
+                            <div class="stat-value" id="score">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Уровень</div>
+                            <div class="stat-value" id="level">1</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Линии</div>
+                            <div class="stat-value" id="lines">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Таблица лидеров -->
+                <div class="leaderboard-panel">
+                    <h3>Таблица лидеров</h3>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <div class="loading">Загрузка...</div>
+                    </div>
+                </div>
+
+                <!-- Управление -->
+                <div class="controls-panel">
+                    <h3>Управление</h3>
+                    <div class="controls-list">
+                        <div class="control-item">
+                            <span class="key">←</span>
+                            <span class="key-desc">Движение влево</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">→</span>
+                            <span class="key-desc">Движение вправо</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">↓</span>
+                            <span class="key-desc">Ускоренное падение</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">↑</span>
+                            <span class="key-desc">Поворот фигуры</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">Пробел</span>
+                            <span class="key-desc">Мгновенное падение</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">P</span>
+                            <span class="key-desc">Пауза</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Окно Game Over -->
+    <div class="game-over" id="gameOver">
+        <div class="game-over-content">
+            <h2>Игра окончена!</h2>
+            <div class="final-score">
+                Ваш счет: <span id="finalScore">0</span>
+            </div>
+            <div class="game-over-buttons">
+                <button id="playAgainButton" class="control-btn primary">Играть снова</button>
+                <button id="menuButton" class="control-btn secondary">В меню</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="js/firebase.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/game.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/game-manager.js"></script>
+    <script type="module" src="js/game-page.js"></script>
+</body>
+</html>
