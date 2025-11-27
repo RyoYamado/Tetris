@@ -5,31 +5,44 @@
 /* Color Palette */
 :root {
     /* Primary Colors */
-    --primary-dark: #667eea;
-    --primary-light: #764ba2;
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --primary: #EDD600;
+    --primary-hover: #f0e100;
+    --secondary: #8A889E;
+    --accent: #956B00;
+    --success: #1A4208;
+    --dark-bg: #051107;
+    --primary-gradient: linear-gradient(135deg, #EDD600 0%, #956B00 100%);
     
     /* Background */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --bg-tertiary: #f0f1f5;
-    --bg-dark: #1a1a1a;
+    --bg-primary: #051107;
+    --bg-secondary: #0d1a0a;
+    --bg-tertiary: #1a2414;
+    --bg-dark: #051107;
     
     /* Text */
-    --text-primary: #1a1a1a;
-    --text-secondary: #666666;
+    --text-primary: #ffffff;
+    --text-secondary: #b8b8c8;
     --text-tertiary: #999999;
     --text-light: #ffffff;
     
-    /* Accents */
-    --accent-success: #4ade80;
+    /* Accents & Status */
+    --accent-success: #1A4208;
     --accent-error: #ff6b6b;
     --accent-warning: #fbbf24;
     --accent-info: #3b82f6;
     
     /* Borders */
-    --border-color: #e5e7eb;
-    --border-color-dark: #d1d5db;
+    --border-color: #3a4a37;
+    --border-color-dark: #2a3a27;
+    
+    /* Card & Component Backgrounds */
+    --card-bg: rgba(13, 26, 10, 0.95);
+    --shadow-glow: 0 0 15px rgba(237, 214, 0, 0.3);
+    --shadow-focus: 0 0 0 3px rgba(237, 214, 0, 0.1);
+    
+    /* Gradient Variants */
+    --gradient-primary: #051107;
+    --gradient-secondary: #0d1a0a;
     
     /* Shadows */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -123,13 +136,13 @@ p {
 }
 
 a {
-    color: var(--primary-dark);
+    color: var(--primary);
     text-decoration: none;
     transition: color var(--transition-base);
 }
 
 a:hover {
-    color: var(--primary-light);
+    color: var(--accent);
     text-decoration: underline;
 }
 
@@ -160,8 +173,8 @@ a:hover {
 
 /* Primary Button */
 .btn-primary {
-    background: var(--primary-gradient);
-    color: var(--text-light);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #000000;
     box-shadow: var(--shadow-md);
 }
 
@@ -176,27 +189,26 @@ a:hover {
 
 /* Secondary Button */
 .btn-secondary {
-    background: var(--bg-secondary);
+    background: var(--secondary);
     color: var(--text-primary);
-    border: 2px solid var(--border-color);
+    border: 2px solid var(--primary);
 }
 
 .btn-secondary:hover:not(:disabled) {
-    border-color: var(--primary-dark);
-    color: var(--primary-dark);
-    background: rgba(102, 126, 234, 0.05);
+    border-color: var(--primary-hover);
+    background: rgba(138, 136, 158, 0.2);
 }
 
 /* Tertiary Button */
 .btn-tertiary {
     background: transparent;
-    color: var(--primary-dark);
+    color: var(--primary);
     border: none;
 }
 
 .btn-tertiary:hover:not(:disabled) {
-    color: var(--primary-light);
-    background: rgba(102, 126, 234, 0.1);
+    color: var(--accent);
+    background: rgba(237, 214, 0, 0.1);
 }
 
 /* Danger Button */
@@ -233,7 +245,7 @@ a:hover {
 }
 
 .card {
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
     box-shadow: var(--shadow-md);
@@ -244,6 +256,7 @@ a:hover {
 .card:hover {
     box-shadow: var(--shadow-lg);
     transform: translateY(-4px);
+    border-color: var(--primary);
 }
 
 .card-header {
@@ -271,8 +284,8 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-lg);
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border-bottom: 2px solid var(--primary);
     box-shadow: var(--shadow-sm);
     flex-wrap: wrap;
     gap: var(--spacing-lg);
