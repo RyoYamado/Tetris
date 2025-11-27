@@ -6,8 +6,8 @@
 }
 
 body {
-    background: linear-gradient(135deg, #101e5a, #1a3a7d);
-    color: #f7f8f9;
+    background: linear-gradient(135deg, var(--gradient-primary), var(--gradient-secondary));
+    color: var(--text-primary);
     min-height: 100vh;
 }
 
@@ -24,15 +24,15 @@ body {
     align-items: center;
     margin-bottom: 30px;
     padding: 20px;
-    background: rgba(16, 30, 90, 0.9);
-    border-radius: 15px;
-    border: 2px solid #5d80b6;
+    background: var(--card-bg);
+    border-radius: var(--border-lg);
+    border: 2px solid var(--primary);
 }
 
 .header-left h1 {
     font-size: 2.5rem;
-    color: #5d80b6;
-    text-shadow: 0 0 15px rgba(93, 128, 182, 0.5);
+    color: var(--primary);
+    text-shadow: var(--shadow-glow);
     margin-bottom: 10px;
 }
 
@@ -43,23 +43,23 @@ body {
 
 .nav-button {
     padding: 8px 16px;
-    background: #0a1328;
-    color: #f7f8f9;
-    border: 1px solid #5d80b6;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--primary);
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition-std);
 }
 
 .nav-button:hover {
-    background: #5d80b6;
+    background: var(--primary);
 }
 
 .user-info {
     display: flex;
     align-items: center;
     gap: 15px;
-    background: #0a1328;
+    background: var(--bg-secondary);
     padding: 15px;
     border-radius: 10px;
 }
@@ -68,7 +68,7 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: #5d80b6;
+    background: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,21 +87,21 @@ body {
 
 .user-stats {
     font-size: 0.9rem;
-    color: #acbdd3;
+    color: var(--text-secondary);
 }
 
 .logout-btn {
     padding: 8px 16px;
-    background: #3d5278;
-    color: #f7f8f9;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: var(--transition-std);
 }
 
 .logout-btn:hover {
-    background: #5d80b6;
+    background: var(--primary);
 }
 
 /* Main game layout */
@@ -113,11 +113,11 @@ body {
 
 /* Game container */
 .game-board-container {
-    background: rgba(16, 30, 90, 0.9);
-    border-radius: 15px;
-    border: 2px solid #5d80b6;
+    background: var(--card-bg);
+    border-radius: var(--border-lg);
+    border: 2px solid var(--primary);
     padding: 24px 22px;
-    box-shadow: 0 8px 32px rgba(93, 128, 182, 0.18);
+    box-shadow: var(--shadow-lg);
     max-width: fit-content;
 }
 
@@ -133,7 +133,7 @@ body {
 }
 
 .game-header h2 {
-    color: #5d80b6;
+    color: var(--primary);
     font-size: 1.8rem;
     font-weight: 700;
     letter-spacing: 1px;
@@ -148,15 +148,15 @@ body {
 }
 
 .status-label {
-    color: #acbdd3;
+    color: var(--text-secondary);
     font-weight: 500;
 }
 
 .status-text {
-    color: #5d80b6;
+    color: var(--primary);
     font-weight: 600;
     padding: 6px 12px;
-    background: rgba(93, 128, 182, 0.1);
+    background: rgba(102, 126, 234, 0.1);
     border-radius: 6px;
     min-width: 140px;
     display: inline-block;
@@ -169,18 +169,18 @@ body {
 }
 
 .status-text.playing {
-    background: rgba(93, 128, 182, 0.2);
-    color: #7a9fd4;
+    background: rgba(102, 126, 234, 0.2);
+    color: var(--primary);
 }
 
 .status-text.paused {
-    background: rgba(255, 193, 7, 0.2);
-    color: #ffc107;
+    background: var(--bg-warning);
+    color: var(--color-warning);
 }
 
 .status-text.gameover {
-    background: rgba(233, 69, 96, 0.2);
-    color: #ff6b6b;
+    background: var(--bg-error);
+    color: var(--color-error);
 }
 
 .game-controls {
@@ -227,38 +227,38 @@ body {
 }
 
 .control-btn.primary {
-    background: linear-gradient(135deg, #5d80b6, #7a9fd4);
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
     color: #f7f8f9;
-    box-shadow: 0 4px 15px rgba(93, 128, 182, 0.3);
+    box-shadow: var(--shadow-md);
 }
 
 .control-btn.primary:hover {
-    background: linear-gradient(135deg, #7a9fd4, #9bc1ff);
+    background: linear-gradient(135deg, var(--primary-hover), var(--primary));
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(93, 128, 182, 0.5);
+    box-shadow: var(--shadow-lg);
 }
 
 .control-btn.primary:active {
     transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(93, 128, 182, 0.4);
+    box-shadow: var(--shadow-md);
 }
 
 .control-btn.secondary {
-    background: #3d5278;
-    color: #f7f8f9;
-    border: 2px solid #5d80b6;
-    box-shadow: 0 2px 10px rgba(93, 128, 182, 0.2);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--primary);
+    box-shadow: var(--shadow-sm);
 }
 
 .control-btn.secondary:hover {
-    background: #5d80b6;
-    box-shadow: 0 4px 15px rgba(93, 128, 182, 0.4);
+    background: var(--primary);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
 }
 
 .control-btn.secondary:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(93, 128, 182, 0.3);
+    box-shadow: var(--shadow-sm);
 }
 
 .control-btn:disabled {
@@ -277,28 +277,28 @@ body {
     grid-template-columns: repeat(10, 40px);
     grid-template-rows: repeat(20, 40px);
     gap: 2px;
-    background: #0a1328;
-    border: 3px solid #5d80b6;
+    background: var(--bg-secondary);
+    border: 3px solid var(--primary);
     padding: 15px;
     border-radius: 10px;
     margin: 20px auto;
     width: fit-content;
     box-sizing: border-box;
-    box-shadow: inset 0 0 20px rgba(93, 128, 182, 0.1);
+    box-shadow: inset 0 0 20px rgba(102, 126, 234, 0.1);
 }
 
 .cell {
     width: 40px;
     height: 40px;
-    background: #0a1328;
+    background: var(--bg-secondary);
     border-radius: 4px;
     transition: all 0.2s ease;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .cell.filled {
-    background: linear-gradient(135deg, #5d80b6, #7a9fd4);
-    box-shadow: 0 0 10px rgba(93, 128, 182, 0.6), inset 0 0 5px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.6), inset 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .next-piece-container {
@@ -307,7 +307,7 @@ body {
 }
 
 .next-piece-container h3 {
-    color: #5d80b6;
+    color: var(--primary);
     margin-bottom: 12px;
     font-size: 1.1rem;
     letter-spacing: 0.5px;
@@ -318,26 +318,26 @@ body {
     grid-template-columns: repeat(4, 35px);
     grid-template-rows: repeat(4, 35px);
     gap: 2px;
-    background: #0a1328;
-    border: 2px solid #5d80b6;
+    background: var(--bg-secondary);
+    border: 2px solid var(--primary);
     padding: 12px;
     border-radius: 8px;
     margin: 0 auto;
     width: fit-content;
-    box-shadow: inset 0 0 15px rgba(93, 128, 182, 0.1);
+    box-shadow: inset 0 0 15px rgba(102, 126, 234, 0.1);
 }
 
 .next-piece-cell {
     width: 35px;
     height: 35px;
-    background: #0a1328;
+    background: var(--bg-secondary);
     border-radius: 4px;
     box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
 .next-piece-cell.filled {
-    background: linear-gradient(135deg, #5d80b6, #7a9fd4);
-    box-shadow: 0 0 8px rgba(93, 128, 182, 0.5), inset 0 0 3px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    box-shadow: 0 0 8px rgba(102, 126, 234, 0.5), inset 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Info column */
@@ -350,9 +350,9 @@ body {
 .stats-panel,
 .leaderboard-panel,
 .controls-panel {
-    background: rgba(16, 30, 90, 0.9);
-    border-radius: 15px;
-    border: 2px solid #5d80b6;
+    background: var(--card-bg);
+    border-radius: var(--border-lg);
+    border: 2px solid var(--primary);
     padding: 25px;
     display: none;
 }
@@ -364,7 +364,7 @@ body {
 .stats-panel h3,
 .leaderboard-panel h3,
 .controls-panel h3 {
-    color: #5d80b6;
+    color: var(--primary);
     margin-bottom: 20px;
     font-size: 1.3rem;
 }
@@ -377,21 +377,21 @@ body {
 
 .stat-item {
     text-align: center;
-    background: #0a1328;
+    background: var(--bg-secondary);
     padding: 15px;
     border-radius: 8px;
 }
 
 .stat-label {
     font-size: 0.9rem;
-    color: #acbdd3;
+    color: var(--text-secondary);
     margin-bottom: 8px;
 }
 
 .stat-value {
     font-size: 1.8rem;
     font-weight: bold;
-    color: #5d80b6;
+    color: var(--primary);
 }
 
 .leaderboard-list {
@@ -404,19 +404,19 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 12px 15px;
-    background: #0a1328;
+    background: var(--bg-secondary);
     margin-bottom: 8px;
     border-radius: 8px;
-    transition: background 0.3s ease;
+    transition: var(--transition-std);
 }
 
 .leaderboard-item:hover {
-    background: #3d5278;
+    background: rgba(102, 126, 234, 0.1);
 }
 
 .leaderboard-position {
     font-weight: bold;
-    color: #5d80b6;
+    color: var(--primary);
     min-width: 30px;
 }
 
@@ -427,7 +427,7 @@ body {
 
 .leaderboard-score {
     font-weight: bold;
-    color: #5d80b6;
+    color: var(--primary);
 }
 
 .controls-list {
@@ -441,16 +441,16 @@ body {
     align-items: center;
     gap: 15px;
     padding: 10px;
-    background: #0a1328;
+    background: var(--bg-secondary);
     border-radius: 8px;
 }
 
 .key {
     display: inline-block;
-    background: #0a1328;
+    background: var(--bg-secondary);
     padding: 5px 10px;
     border-radius: 6px;
-    border: 1px solid #5d80b6;
+    border: 1px solid var(--primary);
     min-width: 50px;
     text-align: center;
     font-weight: bold;
@@ -475,10 +475,10 @@ body {
 }
 
 .game-over-content {
-    background: rgba(16, 30, 90, 0.95);
+    background: var(--card-bg);
     padding: 40px;
     border-radius: 20px;
-    border: 3px solid #5d80b6;
+    border: 3px solid var(--primary);
     text-align: center;
     max-width: 400px;
     width: 90%;
@@ -486,14 +486,14 @@ body {
 
 .game-over h2 {
     font-size: 2.5rem;
-    color: #5d80b6;
+    color: var(--primary);
     margin-bottom: 20px;
 }
 
 .final-score {
     font-size: 1.5rem;
     margin-bottom: 30px;
-    color: #5d80b6;
+    color: var(--primary);
     font-weight: bold;
 }
 
@@ -510,7 +510,7 @@ body {
 
 .loading {
     text-align: center;
-    color: #acbdd3;
+    color: var(--text-secondary);
     padding: 20px;
 }
 
