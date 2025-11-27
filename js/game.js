@@ -6,7 +6,14 @@ import {
     COLORS, 
     TETROMINOES, 
     DOM,
-    getRandomPiece 
+    getRandomPiece,
+    getGameSpeed,
+    BASE_SPEED,
+    SPEED_INCREMENT,
+    MIN_SPEED,
+    LINES_PER_LEVEL,
+    LINE_SCORES,
+    CellCache
 } from './utils.js';
 
 // Game state
@@ -22,6 +29,7 @@ export class TetrisGame {
         this.lines = 0;
         this.gameActive = false;
         this.gamePaused = false;
+        this.cellCache = new CellCache();
         
         this.init();
     }
@@ -32,47 +40,44 @@ export class TetrisGame {
         this.setupEventListeners();
     }
     
-    // Initialize game board
+    // Initialize game board with cached cells
     initBoard() {
-        this.board = [];
+        this.board = Array(BOARD_HEIGHT).fill(null).map(() => Array(BOARD_WIDTH).fill(EMPTY_CELL));
         DOM.gameBoard.innerHTML = '';
         
+        const fragment = document.createDocumentFragment();
         for (let y = 0; y < BOARD_HEIGHT; y++) {
-            this.board[y] = [];
             for (let x = 0; x < BOARD_WIDTH; x++) {
-                this.board[y][x] = EMPTY_CELL;
                 const cell = document.createElement('div');
                 cell.className = 'cell';
                 cell.id = `cell-${x}-${y}`;
-                DOM.gameBoard.appendChild(cell);
+                fragment.appendChild(cell);
             }
         }
+        DOM.gameBoard.appendChild(fragment);
+        this.cellCache.initMainBoard();
     }
     
-    // Initialize next piece board
+    // Initialize next piece board with cached cells
     initNextPieceBoard() {
         DOM.nextPieceBoard.innerHTML = '';
         
+        const fragment = document.createDocumentFragment();
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 const cell = document.createElement('div');
                 cell.className = 'next-piece-cell';
                 cell.id = `next-cell-${x}-${y}`;
-                DOM.nextPieceBoard.appendChild(cell);
+                fragment.appendChild(cell);
             }
         }
+        DOM.nextPieceBoard.appendChild(fragment);
+        this.cellCache.initNextPiece();
     }
     
     // Create new piece
     createNewPiece() {
-        // Use next piece if available
-        if (this.nextPiece) {
-            this.currentPiece = this.nextPiece;
-        } else {
-            this.currentPiece = getRandomPiece();
-        }
-        
-        // Generate next piece
+        this.currentPiece = this.nextPiece || getRandomPiece();
         this.nextPiece = getRandomPiece();
         this.drawNextPiece();
         
@@ -90,11 +95,11 @@ export class TetrisGame {
         return true;
     }
     
-    // Draw game board
+    // Draw game board - only update changed cells
     drawBoard() {
         for (let y = 0; y < BOARD_HEIGHT; y++) {
             for (let x = 0; x < BOARD_WIDTH; x++) {
-                const cell = document.getElementById(`cell-${x}-${y}`);
+                const cell = this.cellCache.getMainCell(x, y);
                 if (this.board[y][x] !== EMPTY_CELL) {
                     cell.className = 'cell filled';
                     cell.style.backgroundColor = COLORS[this.board[y][x]];
@@ -113,17 +118,18 @@ export class TetrisGame {
         // Clear next piece board
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
-                const cell = document.getElementById(`next-cell-${x}-${y}`);
+                const cell = this.cellCache.getNextCell(x, y);
                 cell.className = 'next-piece-cell';
                 cell.style.backgroundColor = '';
             }
         }
         
         // Draw next piece
-        for (let y = 0; y < this.nextPiece.shape.length; y++) {
-            for (let x = 0; x < this.nextPiece.shape[y].length; x++) {
-                if (this.nextPiece.shape[y][x]) {
-                    const cell = document.getElementById(`next-cell-${x}-${y}`);
+        const shape = this.nextPiece.shape;
+        for (let y = 0; y < shape.length; y++) {
+            for (let x = 0; x < shape[y].length; x++) {
+                if (shape[y][x]) {
+                    const cell = this.cellCache.getNextCell(x, y);
                     cell.className = 'next-piece-cell filled';
                     cell.style.backgroundColor = COLORS[this.nextPiece.color];
                 }
@@ -135,14 +141,15 @@ export class TetrisGame {
     drawPiece() {
         if (!this.currentPiece) return;
         
-        for (let y = 0; y < this.currentPiece.shape.length; y++) {
-            for (let x = 0; x < this.currentPiece.shape[y].length; x++) {
-                if (this.currentPiece.shape[y][x]) {
+        const shape = this.currentPiece.shape;
+        for (let y = 0; y < shape.length; y++) {
+            for (let x = 0; x < shape[y].length; x++) {
+                if (shape[y][x]) {
                     const boardX = this.currentPosition.x + x;
                     const boardY = this.currentPosition.y + y;
                     
                     if (boardY >= 0 && boardY < BOARD_HEIGHT && boardX >= 0 && boardX < BOARD_WIDTH) {
-                        const cell = document.getElementById(`cell-${boardX}-${boardY}`);
+                        const cell = this.cellCache.getMainCell(boardX, boardY);
                         cell.className = 'cell filled';
                         cell.style.backgroundColor = COLORS[this.currentPiece.color];
                     }
@@ -153,9 +160,10 @@ export class TetrisGame {
     
     // Check for collisions
     checkCollision(offsetX = 0, offsetY = 0) {
-        for (let y = 0; y < this.currentPiece.shape.length; y++) {
-            for (let x = 0; x < this.currentPiece.shape[y].length; x++) {
-                if (this.currentPiece.shape[y][x]) {
+        const shape = this.currentPiece.shape;
+        for (let y = 0; y < shape.length; y++) {
+            for (let x = 0; x < shape[y].length; x++) {
+                if (shape[y][x]) {
                     const newX = this.currentPosition.x + x + offsetX;
                     const newY = this.currentPosition.y + y + offsetY;
                     
@@ -175,9 +183,10 @@ export class TetrisGame {
     
     // Lock piece on board
     lockPiece() {
-        for (let y = 0; y < this.currentPiece.shape.length; y++) {
-            for (let x = 0; x < this.currentPiece.shape[y].length; x++) {
-                if (this.currentPiece.shape[y][x]) {
+        const shape = this.currentPiece.shape;
+        for (let y = 0; y < shape.length; y++) {
+            for (let x = 0; x < shape[y].length; x++) {
+                if (shape[y][x]) {
                     const boardX = this.currentPosition.x + x;
                     const boardY = this.currentPosition.y + y;
                     
@@ -211,43 +220,44 @@ export class TetrisGame {
         }
         
         if (linesCleared > 0) {
-            // Update score
             this.updateScore(linesCleared);
         }
     }
     
     // Update score
     updateScore(linesCleared) {
-        // Points for lines
-        const linePoints = [0, 40, 100, 300, 1200];
-        this.score += linePoints[linesCleared] * this.level;
-        
-        // Update lines and level
+        this.score += LINE_SCORES[linesCleared] * this.level;
         this.lines += linesCleared;
-        this.level = Math.floor(this.lines / 10) + 1;
+        this.level = Math.floor(this.lines / LINES_PER_LEVEL) + 1;
         
         // Update drop interval based on level
         if (this.gameInterval) {
             clearInterval(this.gameInterval);
-            const speed = Math.max(100, 1000 - (this.level - 1) * 80);
+            const speed = getGameSpeed(this.level);
             this.gameInterval = setInterval(() => this.moveDown(), speed);
         }
         
         // Update interface
-        DOM.scoreElement.textContent = this.score;
-        DOM.levelElement.textContent = this.level;
-        DOM.linesElement.textContent = this.lines;
+        if (DOM.scoreElement) DOM.scoreElement.textContent = this.score;
+        if (DOM.levelElement) DOM.levelElement.textContent = this.level;
+        if (DOM.linesElement) DOM.linesElement.textContent = this.lines;
     }
     
-    // Move piece down
-    moveDown() {
-        if (!this.gameActive || this.gamePaused) return;
-        
+    // Move piece down; if userInitiated=true it was caused by player (soft drop)
+    moveDown(userInitiated = false) {
+        if (!this.isGamePlayable()) return;
+
         if (!this.checkCollision(0, 1)) {
             this.currentPosition.y++;
+
+            // Soft drop scoring: +1 per cell moved by player
+            if (userInitiated) {
+                this.score += 1;
+                if (DOM.scoreElement) DOM.scoreElement.textContent = this.score;
+            }
+
             this.redraw();
         } else {
-            // Lock piece and create new one
             this.lockPiece();
             this.redraw();
         }
@@ -255,7 +265,7 @@ export class TetrisGame {
     
     // Move piece left
     moveLeft() {
-        if (!this.gameActive || this.gamePaused) return;
+        if (!this.isGamePlayable()) return;
         
         if (!this.checkCollision(-1, 0)) {
             this.currentPosition.x--;
@@ -265,7 +275,7 @@ export class TetrisGame {
     
     // Move piece right
     moveRight() {
-        if (!this.gameActive || this.gamePaused) return;
+        if (!this.isGamePlayable()) return;
         
         if (!this.checkCollision(1, 0)) {
             this.currentPosition.x++;
@@ -275,7 +285,7 @@ export class TetrisGame {
     
     // Rotate piece
     rotatePiece() {
-        if (!this.gameActive || this.gamePaused) return;
+        if (!this.isGamePlayable()) return;
         
         const originalShape = this.currentPiece.shape;
         const rows = originalShape.length;
@@ -290,7 +300,6 @@ export class TetrisGame {
             }
         }
         
-        // Save original shape in case of collision
         this.currentPiece.shape = rotated;
         
         // If collision after rotation, revert to original shape
@@ -303,16 +312,29 @@ export class TetrisGame {
     
     // Hard drop
     hardDrop() {
-        if (!this.gameActive || this.gamePaused) return;
-        
+        if (!this.isGamePlayable()) return;
+
         let dropDistance = 0;
         while (!this.checkCollision(0, dropDistance + 1)) {
             dropDistance++;
         }
-        
+
+        if (dropDistance > 0) {
+            // Hard drop scoring: +2 points per cell dropped (standard Tetris behavior)
+            this.score += dropDistance * 2;
+        }
+
         this.currentPosition.y += dropDistance;
         this.lockPiece();
         this.redraw();
+
+        // Update score UI after hard drop
+        if (DOM.scoreElement) DOM.scoreElement.textContent = this.score;
+    }
+    
+    // Check if game is playable (not paused or game over)
+    isGamePlayable() {
+        return this.gameActive && !this.gamePaused;
     }
     
     // Toggle pause
@@ -323,82 +345,95 @@ export class TetrisGame {
         
         if (this.gamePaused) {
             clearInterval(this.gameInterval);
-            DOM.pauseButton.textContent = "Продолжить";
         } else {
-            const speed = Math.max(100, 1000 - (this.level - 1) * 80);
+            const speed = getGameSpeed(this.level);
             this.gameInterval = setInterval(() => this.moveDown(), speed);
-            DOM.pauseButton.textContent = "Пауза";
         }
+        
+        // Emit pause state change event
+        window.dispatchEvent(new CustomEvent('gamePauseChanged', { 
+            detail: { isPaused: this.gamePaused } 
+        }));
     }
     
     // Redraw game board
     redraw() {
-        // First draw static board with locked pieces
         this.drawBoard();
-        // Then draw current falling piece on top
         this.drawPiece();
     }
     
     // Start game
     startGame() {
-        if (!this.gameActive) {
-            this.initBoard();
-            this.initNextPieceBoard();
-            this.score = 0;
-            this.level = 1;
-            this.lines = 0;
-            DOM.scoreElement.textContent = this.score;
-            DOM.levelElement.textContent = this.level;
-            DOM.linesElement.textContent = this.lines;
-            
-            this.gameActive = true;
-            this.gamePaused = false;
-            DOM.gameOverElement.style.display = 'none';
-            
-            // Reset next piece
-            this.nextPiece = null;
-            this.createNewPiece();
-            this.redraw();
-            
-            // Set drop interval
-            const speed = Math.max(100, 1000 - (this.level - 1) * 80);
-            this.gameInterval = setInterval(() => this.moveDown(), speed);
-            
-            DOM.startButton.disabled = true;
-            DOM.pauseButton.textContent = "Пауза";
-        }
+        if (this.gameActive) return;
+        
+        this.initBoard();
+        this.initNextPieceBoard();
+        this.score = 0;
+        this.level = 1;
+        this.lines = 0;
+        
+        if (DOM.scoreElement) DOM.scoreElement.textContent = this.score;
+        if (DOM.levelElement) DOM.levelElement.textContent = this.level;
+        if (DOM.linesElement) DOM.linesElement.textContent = this.lines;
+        
+        this.gameActive = true;
+        this.gamePaused = false;
+        if (DOM.gameOverElement) DOM.gameOverElement.style.display = 'none';
+        
+        this.nextPiece = null;
+        this.createNewPiece();
+        this.redraw();
+        
+        const speed = getGameSpeed(this.level);
+        this.gameInterval = setInterval(() => this.moveDown(), speed);
+        
+        // Emit game state change event
+        window.dispatchEvent(new CustomEvent('gameStateChanged', { 
+            detail: { state: 'playing', gameActive: true, gamePaused: false } 
+        }));
     }
     
     // Game over
     gameOver() {
         this.gameActive = false;
         clearInterval(this.gameInterval);
-        DOM.gameOverElement.style.display = 'block';
-        DOM.finalScoreElement.textContent = this.score;
-        DOM.startButton.disabled = false;
+        if (DOM.gameOverElement) DOM.gameOverElement.style.display = 'block';
+        if (DOM.finalScoreElement) DOM.finalScoreElement.textContent = this.score;
         
-        // Return score for saving
+        // Emit game state change event
+        window.dispatchEvent(new CustomEvent('gameStateChanged', { 
+            detail: { state: 'gameover', gameActive: false, gamePaused: false } 
+        }));
+        
         return this.score;
     }
     
     // Restart game
     restartGame() {
         if (this.gameActive) {
+            // Stop current interval and mark game inactive so startGame() can reinitialize
             clearInterval(this.gameInterval);
+            this.gameActive = false;
+            this.gamePaused = false;
         }
+
+        // Start fresh
         this.startGame();
     }
     
     // Setup event listeners
     setupEventListeners() {
-        // Keyboard controls
         document.addEventListener('keydown', (e) => {
-            // Prevent default behavior only for game keys when game is active
-            if (this.gameActive && ['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', ' ', 'p', 'P', 'з', 'З'].includes(e.key)) {
+            if (!this.gameActive) return;
+            
+            const key = e.key.toLowerCase();
+            const isCyrillic = ['з', 'ш', 'щ', 'п'].includes(key);
+            
+            // Prevent default for game keys
+            if (['arrowleft', 'arrowright', 'arrowdown', 'arrowup', ' '].includes(key) || 
+                key === 'p' || isCyrillic) {
                 e.preventDefault();
             }
-            
-            if (!this.gameActive) return;
             
             switch(e.key) {
                 case 'ArrowLeft':
@@ -408,7 +443,7 @@ export class TetrisGame {
                     this.moveRight();
                     break;
                 case 'ArrowDown':
-                    this.moveDown();
+                    this.moveDown(true);
                     break;
                 case 'ArrowUp':
                     this.rotatePiece();
@@ -425,10 +460,9 @@ export class TetrisGame {
             }
         });
         
-        // Game control buttons
-        DOM.startButton.addEventListener('click', () => this.startGame());
-        DOM.restartButton.addEventListener('click', () => this.restartGame());
-        DOM.pauseButton.addEventListener('click', () => this.togglePause());
-        DOM.playAgainButton.addEventListener('click', () => this.restartGame());
+        // Play again button
+        if (DOM.playAgainButton) {
+            DOM.playAgainButton.addEventListener('click', () => this.restartGame());
+        }
     }
 }

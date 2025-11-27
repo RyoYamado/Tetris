@@ -22,9 +22,6 @@
                 <div class="user-avatar" id="userAvatar">U</div>
                 <div class="user-details">
                     <div class="user-name" id="userName">Гость</div>
-                    <div class="user-stats">
-                        <span>Лучший: <strong id="userBestScore">0</strong></span>
-                    </div>
                 </div>
                 <button id="logoutButton" class="logout-btn">Выйти</button>
             </div>
@@ -32,35 +29,34 @@
 
         <!-- Основная игровая область -->
         <main class="game-main">
-            <!-- Левая колонка - игровое поле -->
-            <div class="game-column">
-                <div class="game-board-container">
-                    <div class="game-header">
+            <div class="game-board-container">
+                <div class="game-header">
+                    <div>
                         <h2>Игровое поле</h2>
-                        <div class="game-controls">
-                            <button id="startButton" class="control-btn primary">Начать игру</button>
-                            <button id="pauseButton" class="control-btn secondary">Пауза</button>
-                            <button id="restartButton" class="control-btn secondary">Перезапуск</button>
-                        </div>
+                        <!-- Status display removed: UI simplified per user request -->
                     </div>
-                    
-                    <div class="game-board" id="gameBoard"></div>
-                    
-                    <div class="next-piece-container">
-                        <h3>Следующая фигура:</h3>
-                        <div class="next-piece-board" id="nextPieceBoard"></div>
+                    <div class="game-controls">
+                        <button id="startButton" class="control-btn primary" title="Начать новую игру">Начать</button>
+                        <button id="pauseButton" class="control-btn secondary hidden" title="Пауза/Продолжить">Пауза</button>
+                        <button id="restartButton" class="control-btn secondary hidden" title="Перезапустить игру">Перезапуск</button>
                     </div>
                 </div>
+                
+                <div class="game-board" id="gameBoard"></div>
+                
+                <div class="next-piece-container">
+                    <h3>Следующая фигура:</h3>
+                    <div class="next-piece-board" id="nextPieceBoard"></div>
+                </div>
             </div>
-
-            <!-- Правая колонка - информация и управление -->
+            
+            <!-- Info column: score, level, lines -->
             <div class="info-column">
-                <!-- Статистика игры -->
                 <div class="stats-panel">
                     <h3>Статистика</h3>
                     <div class="stats-grid">
                         <div class="stat-item">
-                            <div class="stat-label">Очки</div>
+                            <div class="stat-label">Счёт</div>
                             <div class="stat-value" id="score">0</div>
                         </div>
                         <div class="stat-item">
@@ -71,44 +67,9 @@
                             <div class="stat-label">Линии</div>
                             <div class="stat-value" id="lines">0</div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Таблица лидеров -->
-                <div class="leaderboard-panel">
-                    <h3>Таблица лидеров</h3>
-                    <div class="leaderboard-list" id="leaderboardList">
-                        <div class="loading">Загрузка...</div>
-                    </div>
-                </div>
-
-                <!-- Управление -->
-                <div class="controls-panel">
-                    <h3>Управление</h3>
-                    <div class="controls-list">
-                        <div class="control-item">
-                            <span class="key">←</span>
-                            <span class="key-desc">Движение влево</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">→</span>
-                            <span class="key-desc">Движение вправо</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">↓</span>
-                            <span class="key-desc">Ускоренное падение</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">↑</span>
-                            <span class="key-desc">Поворот фигуры</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">Пробел</span>
-                            <span class="key-desc">Мгновенное падение</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">P</span>
-                            <span class="key-desc">Пауза</span>
+                        <div class="stat-item">
+                            <div class="stat-label">Ваш рекорд</div>
+                            <div class="stat-value" id="userBestScore">-</div>
                         </div>
                     </div>
                 </div>

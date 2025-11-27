@@ -5,6 +5,12 @@ export const BOARD_WIDTH = 10;
 export const BOARD_HEIGHT = 20;
 export const EMPTY_CELL = 'empty';
 
+// Game mechanics constants
+export const BASE_SPEED = 1000;
+export const SPEED_INCREMENT = 80;
+export const MIN_SPEED = 100;
+export const LINES_PER_LEVEL = 10;
+
 // Colors for tetrominoes
 export const COLORS = [
     '#5d80b6', // синий - I
@@ -15,6 +21,9 @@ export const COLORS = [
     '#5d80b6', // синий - J
     '#8aabdd'  // голубой - L
 ];
+
+// Line scoring system
+export const LINE_SCORES = [0, 40, 100, 300, 1200];
 
 // Tetromino shapes
 export const TETROMINOES = [
@@ -55,40 +64,36 @@ export const TETROMINOES = [
     }
 ];
 
-// DOM elements
+// DOM elements cache
 export const DOM = {
-    // Auth elements
-    authContainer: document.getElementById('authContainer'),
-    loginTab: document.getElementById('loginTab'),
-    registerTab: document.getElementById('registerTab'),
-    loginForm: document.getElementById('loginForm'),
-    registerForm: document.getElementById('registerForm'),
-    loginButton: document.getElementById('loginButton'),
-    registerButton: document.getElementById('registerButton'),
-    loginError: document.getElementById('loginError'),
-    registerError: document.getElementById('registerError'),
-    
-    // User info elements
-    userInfo: document.getElementById('userInfo'),
-    userAvatar: document.getElementById('userAvatar'),
-    userName: document.getElementById('userName'),
-    userEmail: document.getElementById('userEmail'),
-    userBestScore: document.getElementById('userBestScore'),
-    logoutButton: document.getElementById('logoutButton'),
-    
     // Game elements
-    gameBoard: document.getElementById('gameBoard'),
-    nextPieceBoard: document.getElementById('nextPieceBoard'),
-    scoreElement: document.getElementById('score'),
-    levelElement: document.getElementById('level'),
-    linesElement: document.getElementById('lines'),
-    startButton: document.getElementById('startButton'),
-    restartButton: document.getElementById('restartButton'),
-    pauseButton: document.getElementById('pauseButton'),
-    gameOverElement: document.getElementById('gameOver'),
-    finalScoreElement: document.getElementById('finalScore'),
-    playAgainButton: document.getElementById('playAgainButton'),
-    leaderboardList: document.getElementById('leaderboardList')
+    get gameBoard() { return document.getElementById('gameBoard'); },
+    get nextPieceBoard() { return document.getElementById('nextPieceBoard'); },
+    get scoreElement() { return document.getElementById('score'); },
+    get levelElement() { return document.getElementById('level'); },
+    get linesElement() { return document.getElementById('lines'); },
+    get startButton() { return document.getElementById('startButton'); },
+    get restartButton() { return document.getElementById('restartButton'); },
+    get pauseButton() { return document.getElementById('pauseButton'); },
+    get gameOverElement() { return document.getElementById('gameOver'); },
+    get finalScoreElement() { return document.getElementById('finalScore'); },
+    get playAgainButton() { return document.getElementById('playAgainButton'); },
+
+    // Auth page elements (if available)
+    get loginForm() { return document.getElementById('loginForm'); },
+    get registerForm() { return document.getElementById('registerForm'); },
+    get loginButton() { return document.getElementById('loginButton'); },
+    get registerButton() { return document.getElementById('registerButton'); },
+    get loginError() { return document.getElementById('loginError'); },
+    get registerError() { return document.getElementById('registerError'); },
+
+    // User/Auth elements (if available)
+    get userInfo() { return document.getElementById('userInfo'); },
+    get userAvatar() { return document.getElementById('userAvatar'); },
+    get userName() { return document.getElementById('userName'); },
+    get userEmail() { return document.getElementById('userEmail'); },
+    get userBestScore() { return document.getElementById('userBestScore'); },
+    get logoutButton() { return document.getElementById('logoutButton'); }
 };
 
 // Get Firebase error message
@@ -109,4 +114,45 @@ export function getFirebaseErrorMessage(errorCode) {
 export function getRandomPiece() {
     const pieceIndex = Math.floor(Math.random() * TETROMINOES.length);
     return JSON.parse(JSON.stringify(TETROMINOES[pieceIndex]));
+}
+
+// Calculate game speed based on level
+export function getGameSpeed(level) {
+    return Math.max(MIN_SPEED, BASE_SPEED - (level - 1) * SPEED_INCREMENT);
+}
+
+// Cache for DOM cells to avoid repeated queries
+export class CellCache {
+    constructor() {
+        this.mainBoardCells = new Map();
+        this.nextPieceCells = new Map();
+    }
+    
+    initMainBoard() {
+        this.mainBoardCells.clear();
+        for (let y = 0; y < BOARD_HEIGHT; y++) {
+            for (let x = 0; x < BOARD_WIDTH; x++) {
+                const id = `cell-${x}-${y}`;
+                this.mainBoardCells.set(id, document.getElementById(id));
+            }
+        }
+    }
+    
+    initNextPiece() {
+        this.nextPieceCells.clear();
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                const id = `next-cell-${x}-${y}`;
+                this.nextPieceCells.set(id, document.getElementById(id));
+            }
+        }
+    }
+    
+    getMainCell(x, y) {
+        return this.mainBoardCells.get(`cell-${x}-${y}`);
+    }
+    
+    getNextCell(x, y) {
+        return this.nextPieceCells.get(`next-cell-${x}-${y}`);
+    }
 }

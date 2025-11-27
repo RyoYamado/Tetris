@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица лидеров - Тетрис</title>
+    <link rel="stylesheet" href="css/leaderboard.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="leaderboard-header">
+            <div class="header-left">
+                <h1>Таблица Лидеров</h1>
+                <nav class="header-nav">
+                    <button id="homeButton" class="nav-button">← Назад в игру</button>
+                </nav>
+            </div>
+            
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <div class="user-name" id="userName">Гость</div>
+                    <div class="user-rank" id="userRank">Ранг: -</div>
+                </div>
+                <button id="logoutButton" class="logout-btn">Выйти</button>
+            </div>
+        </header>
+
+        <!-- Main content -->
+        <main class="leaderboard-main">
+            <!-- Search and filters -->
+            <div class="search-section">
+                <div class="search-box">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Поиск игрока..."
+                    >
+                    <button id="searchButton" class="search-button">🔍 Поиск</button>
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="top">Топ 10</button>
+                    <button class="filter-btn" data-filter="nearby">Около меня</button>
+                    <button class="filter-btn" data-filter="all">Все игроки</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard view -->
+            <div class="leaderboard-container">
+                <!-- Stats overview -->
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-label">Мой рейтинг</div>
+                        <div class="stat-value" id="myRank">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Мой лучший результат</div>
+                        <div class="stat-value" id="myScore">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Всего игроков</div>
+                        <div class="stat-value" id="totalPlayers">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Мой рекорд</div>
+                        <div class="stat-value" id="myPosition">-</div>
+                    </div>
+                </div>
+
+                <!-- Table section -->
+                <div class="table-section">
+                    <div class="table-header">
+                        <h2 id="tableTitle">Топ 10 игроков</h2>
+                        <button id="refreshButton" class="refresh-btn">🔄 Обновить</button>
+                    </div>
+                    
+                    <div class="leaderboard-table">
+                        <div class="table-head">
+                            <div class="col-rank">№</div>
+                            <div class="col-player">Игрок</div>
+                            <div class="col-score">Очки</div>
+                            <div class="col-games">Игр сыграно</div>
+                            <div class="col-avgScore">Средний результат</div>
+                        </div>
+                        
+                        <div class="table-body" id="leaderboardBody">
+                            <div class="loading">Загрузка...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard stats -->
+                <div class="leaderboard-stats">
+                    <h3>Статистика сервера</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-name">Всего игроков:</span>
+                            <span class="stat-number" id="statsTotal">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-name">Всего игр:</span>
+                            <span class="stat-number" id="statsGames">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-name">Максимальный результат:</span>
+                            <span class="stat-number" id="statsMax">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-name">Средний результат:</span>
+                            <span class="stat-number" id="statsAvg">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="js/firebase.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/leaderboard.js"></script>
+    <script type="module" src="js/leaderboard-page.js"></script>
+</body>
+</html>

@@ -18,17 +18,18 @@ import {
     getDocs,
     query,
     orderBy,
-    limit
+    limit,
+    where
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDcCsrrSKpv3wgaK1cMnfCmsCCmw-v_ErE",
-    authDomain: "tetr-ce39f.firebaseapp.com",
-    projectId: "tetr-ce39f",
-    storageBucket: "tetr-ce39f.firebasestorage.app",
-    messagingSenderId: "325362402192",
-    appId: "1:325362402192:web:cecbecb2017085a4716915"
+    apiKey: "AIzaSyAYhISDr9MJcpPE_ekpSC87Lc9yBX4HcA4",
+    authDomain: "tetr-c0146.firebaseapp.com",
+    projectId: "tetr-c0146",
+    storageBucket: "tetr-c0146.firebasestorage.app",
+    messagingSenderId: "444666701222",
+    appId: "1:444666701222:web:07d02d988a0e048c065b67"
 };
 
 // Initialize Firebase
@@ -53,5 +54,12 @@ export {
     getDocs,
     query,
     orderBy,
-    limit
+    limit,
+    where
 };
+
+// Debug logs to help local dev: confirm initialization and auth state changes
+console.info('Firebase initialized', { authInitialized: !!auth, dbInitialized: !!db });
+onAuthStateChanged(auth, (user) => {
+    console.info('Firebase auth state changed:', user ? { uid: user.uid, email: user.email } : null);
+});
