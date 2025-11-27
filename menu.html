@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Меню - Тетрис</title>
+    <link rel="stylesheet" href="css/menu.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="menu-header">
+            <div class="header-left">
+                <h1>Тетрис</h1>
+                <p class="subtitle">Выберите режим игры</p>
+            </div>
+            
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <div class="user-name" id="userName">Гость</div>
+                </div>
+                <button id="logoutButton" class="logout-btn">Выйти</button>
+            </div>
+        </header>
+
+        <!-- Main content -->
+        <main class="menu-main">
+            <div class="menu-container">
+                <h2>Выберите режим игры</h2>
+                
+                <div class="game-modes">
+                    <!-- Single Player -->
+                    <div class="mode-card single-player-card">
+                        <div class="mode-icon">🎮</div>
+                        <h3>Одиночная игра</h3>
+                        <p>Классический режим Тетриса. Играйте против времени и собирайте рекорды.</p>
+                        <div class="mode-features">
+                            <div class="feature">✓ Бесконечная игра</div>
+                            <div class="feature">✓ Прогрессирующая сложность</div>
+                            <div class="feature">✓ Таблица лидеров</div>
+                        </div>
+                        <button id="singlePlayerBtn" class="play-btn">Играть</button>
+                    </div>
+
+                    <!-- Multiplayer -->
+                    <div class="mode-card multiplayer-card">
+                        <div class="mode-icon">⚔️</div>
+                        <h3>1v1 Мультиплеер</h3>
+                        <p>Соревнуйтесь с друзьями в реальном времени. Кто соберет больше очков?</p>
+                        <div class="mode-features">
+                            <div class="feature">✓ Игра вдвоем</div>
+                            <div class="feature">✓ Реал-тайм синхронизация</div>
+                            <div class="feature">✓ Коды комнат</div>
+                        </div>
+                        <button id="multiplayerBtn" class="play-btn">Играть</button>
+                    </div>
+
+                    <!-- Leaderboard -->
+                    <div class="mode-card leaderboard-card">
+                        <div class="mode-icon">🏆</div>
+                        <h3>Таблица лидеров</h3>
+                        <p>Посмотрите рейтинг топовых игроков и свою позицию в рейтинге.</p>
+                        <div class="mode-features">
+                            <div class="feature">✓ Топ 10 игроков</div>
+                            <div class="feature">✓ Ваше место в рейтинге</div>
+                            <div class="feature">✓ Мировая статистика</div>
+                        </div>
+                        <button id="leaderboardBtn" class="play-btn">Открыть</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="js/firebase.js"></script>
+    <script type="module" src="js/menu-page.js"></script>
+</body>
+</html>

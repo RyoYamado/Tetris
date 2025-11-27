@@ -58,6 +58,13 @@ class GamePage {
                 window.location.href = 'leaderboard.html';
             });
         }
+
+        const multiplayerButton = document.getElementById('multiplayerButton');
+        if (multiplayerButton) {
+            multiplayerButton.addEventListener('click', () => {
+                window.location.href = 'multiplayer.html';
+            });
+        }
         
         // Game control buttons
         const startButton = document.getElementById('startButton');

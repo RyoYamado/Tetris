@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мультиплеер игра - Тетрис</title>
+    <link rel="stylesheet" href="css/multiplayer-game.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="header-left">
+                <h1>Тетрис - Мультиплеер</h1>
+                <div class="room-info">
+                    <span class="room-label">Код комнаты: <span id="roomCode">-</span></span>
+                </div>
+            </div>
+            
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <div class="user-name" id="userName">Гость</div>
+                </div>
+                <button id="leaveButton" class="logout-btn">Выйти из игры</button>
+            </div>
+        </header>
+
+        <!-- Main game area -->
+        <main class="multiplayer-game-main">
+            <!-- Player 1 Area -->
+            <div class="player-area player-1">
+                <div class="player-header">
+                    <div class="player-name" id="player1Name">Вы</div>
+                    <div class="player-status" id="player1Status">⏳ Ожидание...</div>
+                </div>
+                
+                <div class="game-board-container">
+                    <div class="game-board" id="gameBoard1"></div>
+                    
+                    <div class="next-piece-container">
+                        <h3>Следующая:</h3>
+                        <div class="next-piece-board" id="nextPieceBoard1"></div>
+                    </div>
+                </div>
+                
+                <div class="player-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Счёт:</span>
+                        <span class="stat-value" id="score1">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Уровень:</span>
+                        <span class="stat-value" id="level1">1</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Линии:</span>
+                        <span class="stat-value" id="lines1">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VS Divider -->
+            <div class="vs-divider">
+                <span class="vs-text">VS</span>
+            </div>
+
+            <!-- Player 2 Area -->
+            <div class="player-area player-2">
+                <div class="player-header">
+                    <div class="player-name" id="player2Name">Противник</div>
+                    <div class="player-status" id="player2Status">⏳ Ожидание...</div>
+                </div>
+                
+                <div class="game-board-container">
+                    <div class="game-board" id="gameBoard2"></div>
+                    
+                    <div class="next-piece-container">
+                        <h3>Следующая:</h3>
+                        <div class="next-piece-board" id="nextPieceBoard2"></div>
+                    </div>
+                </div>
+                
+                <div class="player-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Счёт:</span>
+                        <span class="stat-value" id="score2">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Уровень:</span>
+                        <span class="stat-value" id="level2">1</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Линии:</span>
+                        <span class="stat-value" id="lines2">0</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div class="game-over-modal" id="gameOverModal">
+        <div class="game-over-content">
+            <h2 id="gameOverTitle">Игра окончена!</h2>
+            <div class="game-over-stats">
+                <div class="stat-row">
+                    <span class="stat-name">Ваш счет:</span>
+                    <span class="stat-score" id="yourFinalScore">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Счет противника:</span>
+                    <span class="stat-score" id="opponentFinalScore">0</span>
+                </div>
+                <div class="result-text" id="resultText"></div>
+            </div>
+            <div class="game-over-buttons">
+                <button id="playAgainButton" class="control-btn primary">Играть снова</button>
+                <button id="menuButton" class="control-btn secondary">В меню</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Lost Modal -->
+    <div class="connection-modal" id="connectionModal">
+        <div class="connection-content">
+            <div class="warning-icon">⚠️</div>
+            <h2>Соединение потеряно</h2>
+            <p>Противник отключился от игры</p>
+            <button id="backToMenuButton" class="control-btn primary">Вернуться в меню</button>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="loading-modal" id="loadingModal">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loadingText">Загрузка игры...</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="js/firebase.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/multiplayer-game.js"></script>
+    <script type="module" src="js/multiplayer-game-page.js"></script>
+</body>
+</html>

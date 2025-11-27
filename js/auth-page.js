@@ -16,8 +16,8 @@ class AuthPageController {
         // Check if user is already logged in
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is already logged in, redirect to game page
-                window.location.href = 'game.html';
+                // User is already logged in, redirect to menu page
+                window.location.href = 'menu.html';
             }
         });
         
