@@ -5,28 +5,28 @@
 /* Color Palette */
 :root {
     /* Primary Colors */
-    --primary: #EDD600;
-    --primary-hover: #f0e100;
-    --secondary: #8A889E;
-    --accent: #956B00;
-    --success: #1A4208;
-    --dark-bg: #051107;
-    --primary-gradient: linear-gradient(135deg, #EDD600 0%, #956B00 100%);
+    --primary: #DEBAB1;
+    --primary-hover: #e5c4bd;
+    --secondary: #015B76;
+    --accent: #CA6378;
+    --success: #186447;
+    --dark-bg: #186447;
+    --primary-gradient: linear-gradient(135deg, #DEBAB1 0%, #CA6378 100%);
     
     /* Background */
-    --bg-primary: #051107;
-    --bg-secondary: #0d1a0a;
-    --bg-tertiary: #1a2414;
-    --bg-dark: #051107;
+    --bg-primary: #0a1a15;
+    --bg-secondary: #0f2620;
+    --bg-tertiary: #1a3530;
+    --bg-dark: #0a1a15;
     
     /* Text */
     --text-primary: #ffffff;
-    --text-secondary: #b8b8c8;
+    --text-secondary: #b8c4b8;
     --text-tertiary: #999999;
     --text-light: #ffffff;
     
     /* Accents & Status */
-    --accent-success: #1A4208;
+    --accent-success: #186447;
     --accent-error: #ff6b6b;
     --accent-warning: #fbbf24;
     --accent-info: #3b82f6;
